@@ -1,13 +1,13 @@
 {
- "run_at": "2026-11-26T04:25+00:00",
+ "run_at": "2026-11-26T12:45+00:00",
  "sources": [
   {
    "source": "adum",
    "ok": true,
-   "count": 219,
-   "new": 219,
+   "count": 227,
+   "new": 9,
    "matched": 15,
-   "seconds": 12.7,
+   "seconds": 14.6,
    "error": "",
    "note": ""
   },
@@ -15,19 +15,19 @@
    "source": "abg",
    "ok": true,
    "count": 107,
-   "new": 107,
+   "new": 0,
    "matched": 20,
-   "seconds": 52.9,
+   "seconds": 56.9,
    "error": "",
    "note": ""
   },
   {
    "source": "cnrs",
    "ok": true,
-   "count": 50,
-   "new": 50,
+   "count": 51,
+   "new": 1,
    "matched": 6,
-   "seconds": 2.3,
+   "seconds": 2.7,
    "error": "",
    "note": ""
   },
@@ -37,26 +37,26 @@
    "count": 0,
    "new": 0,
    "matched": 0,
-   "seconds": 9.6,
+   "seconds": 10.4,
    "error": "Catalogue currently empty (CEA usually publishes thesis topics in Dec–Jan)",
    "note": "Catalogue currently empty (CEA usually publishes thesis topics in Dec–Jan)"
   },
   {
    "source": "inria",
    "ok": true,
-   "count": 15,
-   "new": 15,
+   "count": 16,
+   "new": 1,
    "matched": 3,
-   "seconds": 3.1,
+   "seconds": 1.4,
    "error": "",
    "note": ""
   }
  ],
  "http_log": [
-  "200   159704B GET https://adum.fr/as/ed/propositionFR.pl?site=adumR",
-  "200   156259B GET https://adum.fr/as/ed/propositionFR.pl?site=PSaclay",
+  "200   166605B GET https://adum.fr/as/ed/propositionFR.pl?site=adumR",
+  "200   163176B GET https://adum.fr/as/ed/propositionFR.pl?site=PSaclay",
   "200     4399B GET https://adum.fr/as/ed/proposition.pl?site=PSaclay",
-  "200   154531B GET https://adum.fr/as/ed/propositionFR.pl?site=IPP",
+  "200   161416B GET https://adum.fr/as/ed/propositionFR.pl?site=IPP",
   "200     3543B GET https://adum.fr/as/ed/proposition.pl?site=IPP",
   "200    42453B GET https://emploi.abg.asso.fr/fr/candidatOffres",
   "200    23986B POST https://emploi.abg.asso.fr/fr/candidatOffres/recherche",
@@ -79,11 +79,11 @@
   "200    24921B POST https://emploi.abg.asso.fr/fr/candidatOffres/recherche",
   "200    26197B POST https://emploi.abg.asso.fr/fr/candidatOffres/recherche",
   "200    25385B POST https://emploi.abg.asso.fr/fr/candidatOffres/recherche",
-  "200   267452B GET https://emploi.cnrs.fr/Rss/Offres.ashx",
+  "200   275381B GET https://emploi.cnrs.fr/Rss/Offres.ashx",
   "200     5908B GET https://instn.cea.fr/wp-json/wp/v2/thematique-these?per_page=100&page=1&_fields=id,name",
   "200     3302B GET https://instn.cea.fr/wp-json/wp/v2/thematique-these?per_page=100&page=2&_fields=id,name",
   "200        2B GET https://instn.cea.fr/wp-json/wp/v2/thematique-these?per_page=100&page=3&_fields=id,name",
   "200        2B GET https://instn.cea.fr/wp-json/wp/v2/these?per_page=100&page=1&_fields=id,date,modified,link,title,excerpt,content,thematique-these",
-  "200   327799B GET https://jobs.inria.fr/public/classic/en/offres"
+  "200   327905B GET https://jobs.inria.fr/public/classic/en/offres"
  ]
 }
