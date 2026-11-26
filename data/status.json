@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-26T04:13+00:00",
+ "run_at": "2026-11-26T04:16+00:00",
  "sources": [
   {
    "source": "adum",
@@ -15,9 +15,9 @@
    "source": "abg",
    "ok": true,
    "count": 199,
-   "new": 159,
+   "new": 0,
    "matched": 40,
-   "seconds": 56.4,
+   "seconds": 55.3,
    "error": "",
    "note": ""
   },
@@ -37,7 +37,7 @@
    "count": 0,
    "new": 0,
    "matched": 0,
-   "seconds": 10.3,
+   "seconds": 9.4,
    "error": "Catalogue currently empty (CEA usually publishes thesis topics in Dec–Jan)",
    "note": "Catalogue currently empty (CEA usually publishes thesis topics in Dec–Jan)"
   },
@@ -47,7 +47,7 @@
    "count": 57,
    "new": 0,
    "matched": 6,
-   "seconds": 5.1,
+   "seconds": 4.7,
    "error": "",
    "note": ""
   }
@@ -84,7 +84,7 @@
   "200     3302B GET https://instn.cea.fr/wp-json/wp/v2/thematique-these?per_page=100&page=2&_fields=id,name",
   "200        2B GET https://instn.cea.fr/wp-json/wp/v2/thematique-these?per_page=100&page=3&_fields=id,name",
   "200        2B GET https://instn.cea.fr/wp-json/wp/v2/these?per_page=100&page=1&_fields=id,date,modified,link,title,excerpt,content,thematique-these",
-  "200   327819B GET https://jobs.inria.fr/public/classic/en/offres",
-  "200   327809B GET https://jobs.inria.fr/public/classic/en/offres?page=2"
+  "200   327818B GET https://jobs.inria.fr/public/classic/en/offres",
+  "200   327804B GET https://jobs.inria.fr/public/classic/en/offres?page=2"
  ]
 }
