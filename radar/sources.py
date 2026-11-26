@@ -22,8 +22,11 @@ def is_phd(*texts: str) -> bool:
     return bool(PHD_RX.search(" ".join(texts)))
 
 
+DASHES = str.maketrans({c: "-" for c in "\u2010\u2011\u2012\u2013\u2014\u2212"})
+
+
 def is_postdoc(title: str) -> bool:
-    return bool(POSTDOC_RX.search(title))
+    return bool(POSTDOC_RX.search((title or "").translate(DASHES)))
 
 
 # ---------------------------------------------------------------- ADUM (French doctoral schools)
