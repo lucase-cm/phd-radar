@@ -37,7 +37,8 @@ def main(only: list[str] | None = None) -> int:
             continue
         t0 = time.time()
         try:
-            offers: list[Offer] = fn(http, scfg)
+            from .sources import is_postdoc
+            offers: list[Offer] = [o for o in fn(http, scfg) if not is_postdoc(o.title)]
             new = 0
             for o in offers:
                 o.matched = matcher.match(o.title, o.summary)
@@ -58,6 +59,13 @@ def main(only: list[str] | None = None) -> int:
             status.append({"source": name, "ok": False, "count": 0, "new": 0, "matched": 0,
                            "seconds": round(time.time() - t0, 1), "error": f"{type(e).__name__}: {e}"[:300]})
         print(f"[{name}] {status[-1]}", flush=True)
+
+    # Forget offers from a source that worked this run but no longer returned them *and*
+    # would now be filtered (e.g. postdocs / non-thesis items stored before a filter fix)
+    from .sources import is_postdoc
+    for uid in list(store):
+        if is_postdoc(store[uid]["title"]):
+            del store[uid]
 
     # Expire offers not seen for a while (only for sources that worked this run)
     ok_sources = {s["source"] for s in status if s["ok"]}

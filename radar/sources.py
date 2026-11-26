@@ -86,13 +86,19 @@ def abg(http: Http, cfg: dict) -> list[Offer]:
                 if oid in out or len(title) < 8:
                     continue
                 ctx = card_text(a, 5, 900)
+                # each card reads "<title> <institution> Thèse|Stage|Emploi <city>…"; keep theses only
+                kind = re.search(r"\s(Thèse|Stage|Emploi)\s", ctx[len(title):][:250])
+                if not kind or kind.group(1) != "Thèse" or is_postdoc(title):
+                    n += 1  # still counts as a result for pagination
+                    out.setdefault("skip:" + oid, None)
+                    continue
                 m = re.search(r"(\d{2}/\d{2}/\d{4})", ctx)
                 out[oid] = Offer(source="ABG", title=title, url=f"{ABG}/fr/candidatOffres/show/id_offre/{oid}",
                                  summary=ctx, posted=m.group(1) if m else "", uid=f"abg:{oid}")
                 n += 1
             if n == 0:
                 break
-    return list(out.values())
+    return [o for o in out.values() if o is not None]
 
 
 # ---------------------------------------------------------------- CNRS
