@@ -72,7 +72,8 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data docs
           git diff --cached --quiet || git commit -m "Update offers $(date -u +%F)"
-          git push
+          # if main moved during the run (e.g. a config edit), replay our data commit on top of it
+          for i in 1 2 3; do git push && break || (git pull --rebase -X theirs origin main && sleep 2); done
       - uses: actions/upload-pages-artifact@v3
         if: ${{ inputs.probe == '' }}
         with:
