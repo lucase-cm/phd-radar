@@ -9,9 +9,13 @@ Every day, PhD Radar collects PhD offers from European and French sources and fl
 | CNRS | Doctoral contracts on emploi.cnrs.fr |
 | CEA | Thesis catalogue on instn.cea.fr |
 | Inria | PhD positions on jobs.inria.fr |
-| EURAXESS | EU-wide research jobs portal, searched by keyword |
-| FindAPhD | Computer science, Europe |
-| Academic Positions | PhD positions in computer science |
+
+EURAXESS, FindAPhD and Academic Positions are off by default (`enabled: false` in `config.yaml`) because they block automated requests (HTTP 403). Their own email alerts cover them better:
+- **EURAXESS**: run a search (e.g. "machine learning", researcher profile R1), then use "Save search / Get alerts" (needs a free EURAXESS account).
+- **FindAPhD**: run a search for computer science in Europe, then click "Email me PhDs like these".
+- **Academic Positions**: filter by PhD and computer science, then "Create job alert".
+
+CEA publishes its thesis catalogue each winter (usually December–January). Outside that window the source shows "Catalogue currently empty", which is normal.
 
 ## Customising
 
@@ -19,7 +23,6 @@ Everything you'd normally change is in `config.yaml`:
 - **keywords.include / exclude**: what counts as a match. Matching ignores case and accents, and short terms like `ai` only match whole words.
 - **sources.*.enabled**: turn a source off.
 - **adum.sites**: add more ADUM sites. The code is whatever comes after `site=` in a school's ADUM link, e.g. `ed3c` or `UPHF`.
-- **euraxess.queries**, **findaphd.paths**, **academicpositions.paths**: what to search for on those sites.
 
 Commit the change and the next run picks it up. To run immediately, open **Actions → PhD Radar → Run workflow**.
 
@@ -29,7 +32,7 @@ Commit the change and the next run picks it up. To run immediately, open **Actio
 - Offers are stored in `data/offers.json` along with the date each was first seen. Offers that stop appearing for 45 days are removed.
 - The page is `docs/index.html`, and the feed (`docs/feed.xml`) contains matching offers only. Both are deployed to GitHub Pages.
 - If a source breaks, the others keep working. Open "Source status" at the top of the page to see which one failed and why.
-- To debug a source, run the workflow with **debug** ticked. This saves the raw downloaded pages as a run artifact.
+- To debug a source, run the workflow with **debug** ticked. The raw downloaded pages are pushed to the `debug` branch. The **probe** input downloads any URLs you give it into that branch.
 
 ## Run locally
 
