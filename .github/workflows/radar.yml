@@ -13,6 +13,10 @@ on:
         description: "Run only these sources (space-separated, e.g. 'adum cnrs'); empty = all"
         type: string
         default: ""
+      probe:
+        description: "Debug: space-separated URLs to download into the 'debug' branch (skips scraping)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -34,20 +38,27 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
+      - name: Probe URLs
+        if: ${{ inputs.probe != '' }}
+        env:
+          PROBE_URLS: ${{ inputs.probe }}
+        run: |
+          python -m radar.probe $PROBE_URLS
+          git config user.name "phd-radar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git checkout --orphan debug
+          git rm -rqf --cached .
+          git add -f debug
+          git commit -qm "probe"
+          git push -f origin debug
       - name: Run radar
+        if: ${{ inputs.probe == '' }}
         env:
           RADAR_DEBUG_DIR: ${{ inputs.debug && 'debug' || '' }}
           SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
         run: python -m radar.run ${{ inputs.only }}
-      - name: Upload debug pages
-        if: ${{ inputs.debug }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-pages
-          path: |
-            debug/
-            data/status.json
       - name: Commit data
+        if: ${{ inputs.probe == '' }}
         run: |
           git config user.name "phd-radar-bot"
           git config user.email "actions@users.noreply.github.com"
@@ -55,11 +66,13 @@ jobs:
           git diff --cached --quiet || git commit -m "Update offers $(date -u +%F)"
           git push
       - uses: actions/upload-pages-artifact@v3
+        if: ${{ inputs.probe == '' }}
         with:
           path: docs
 
   deploy:
     needs: scrape
+    if: ${{ inputs.probe == '' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
