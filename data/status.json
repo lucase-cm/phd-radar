@@ -1,0 +1,117 @@
+{
+ "run_at": "2026-11-26T04:00+00:00",
+ "sources": [
+  {
+   "source": "adum",
+   "ok": true,
+   "count": 219,
+   "new": 219,
+   "matched": 24,
+   "seconds": 13.7,
+   "error": ""
+  },
+  {
+   "source": "abg",
+   "ok": false,
+   "count": 0,
+   "new": 0,
+   "matched": 0,
+   "seconds": 44.8,
+   "error": "0 offers found (site layout may have changed or blocked us)"
+  },
+  {
+   "source": "cnrs",
+   "ok": true,
+   "count": 106,
+   "new": 106,
+   "matched": 12,
+   "seconds": 10.3,
+   "error": ""
+  },
+  {
+   "source": "cea",
+   "ok": false,
+   "count": 0,
+   "new": 0,
+   "matched": 0,
+   "seconds": 202.8,
+   "error": "0 offers found (site layout may have changed or blocked us)"
+  },
+  {
+   "source": "inria",
+   "ok": true,
+   "count": 57,
+   "new": 57,
+   "matched": 6,
+   "seconds": 5.7,
+   "error": ""
+  },
+  {
+   "source": "euraxess",
+   "ok": false,
+   "count": 0,
+   "new": 0,
+   "matched": 0,
+   "seconds": 7.1,
+   "error": "0 offers found (site layout may have changed or blocked us)"
+  },
+  {
+   "source": "findaphd",
+   "ok": false,
+   "count": 0,
+   "new": 0,
+   "matched": 0,
+   "seconds": 0.1,
+   "error": "0 offers found (site layout may have changed or blocked us)"
+  },
+  {
+   "source": "academicpositions",
+   "ok": false,
+   "count": 0,
+   "new": 0,
+   "matched": 0,
+   "seconds": 0.1,
+   "error": "0 offers found (site layout may have changed or blocked us)"
+  }
+ ],
+ "http_log": [
+  "200   159704B https://adum.fr/as/ed/propositionFR.pl?site=adumR",
+  "200   156259B https://adum.fr/as/ed/propositionFR.pl?site=PSaclay",
+  "200     4399B https://adum.fr/as/ed/proposition.pl?site=PSaclay",
+  "200   154531B https://adum.fr/as/ed/propositionFR.pl?site=IPP",
+  "200     3543B https://adum.fr/as/ed/proposition.pl?site=IPP",
+  "404    73462B https://www.abg.asso.fr/fr/recrutement/sujet-de-these/informatique",
+  "FAIL https://www.abg.asso.fr/fr/recrutement/sujet-de-these/informatique HTTPError: 404 Client Error: Not Found for url: https://abg.asso.fr/fr/recrutement/sujet-de-these/informatique",
+  "404    73462B https://www.abg.asso.fr/fr/recrutement/sujet-de-these/mathematiques",
+  "FAIL https://www.abg.asso.fr/fr/recrutement/sujet-de-these/mathematiques HTTPError: 404 Client Error: Not Found for url: https://abg.asso.fr/fr/recrutement/sujet-de-these/mathematiques",
+  "404    73462B https://www.abg.asso.fr/fr/recrutement/sujet-de-these/electronique",
+  "FAIL https://www.abg.asso.fr/fr/recrutement/sujet-de-these/electronique HTTPError: 404 Client Error: Not Found for url: https://abg.asso.fr/fr/recrutement/sujet-de-these/electronique",
+  "200   267452B https://emploi.cnrs.fr/Rss/Offres.ashx",
+  "200     1160B https://instn.cea.fr/en/these/feed/",
+  "200     1186B https://instn.cea.fr/these/feed/",
+  "200     1170B https://instn.cea.fr/en/feed/?post_type=these",
+  "200     1196B https://instn.cea.fr/feed/?post_type=these",
+  "ERR https://instn.cea.fr/en/thematique-these/mathematics-information-scientific-software-en/ HTTPSConnectionPool(host='instn.cea.fr', port=22091): Max retries exceeded with url: /en/thematique-these/mathematics-information-scientific-software-en/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='instn.cea.fr', port=22091) at 0x7557f9462ff0>, 'Connection to instn.cea.fr timed out. (connect timeout=40)'))",
+  "ERR https://instn.cea.fr/en/thematique-these/mathematics-information-scientific-software-en/ HTTPSConnectionPool(host='instn.cea.fr', port=22091): Max retries exceeded with url: /en/thematique-these/mathematics-information-scientific-software-en/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='instn.cea.fr', port=22091) at 0x7557f9463740>, 'Connection to instn.cea.fr timed out. (connect timeout=40)'))",
+  "ERR https://instn.cea.fr/en/thematique-these/mathematics-information-scientific-software-en/ HTTPSConnectionPool(host='instn.cea.fr', port=22091): Max retries exceeded with url: /en/thematique-these/mathematics-information-scientific-software-en/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='instn.cea.fr', port=22091) at 0x7557f9462390>, 'Connection to instn.cea.fr timed out. (connect timeout=40)'))",
+  "FAIL https://instn.cea.fr/en/thematique-these/mathematics-information-scientific-software-en/ ConnectTimeout: HTTPSConnectionPool(host='instn.cea.fr', port=22091): Max retries exceeded with url: /en/thematique-these/mathematics-information-scientific-software-en/ (Caused by ConnectTimeoutError(<HTTP",
+  "ERR https://instn.cea.fr/en/thematique-these/technological-challenges-en/ HTTPSConnectionPool(host='instn.cea.fr', port=22091): Max retries exceeded with url: /en/thematique-these/technological-challenges-en/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='instn.cea.fr', port=22091) at 0x7557f97e7f80>, 'Connection to instn.cea.fr timed out. (connect timeout=40)'))",
+  "200    23311B https://instn.cea.fr/en/thematique-these/technological-challenges-en/",
+  "500    19620B https://instn.cea.fr/en/these/",
+  "FAIL https://instn.cea.fr/en/these/ HTTPError: 500 Server Error: Internal Server Error for url: https://instn.cea.fr/en/these/",
+  "200   327806B https://jobs.inria.fr/public/classic/en/offres",
+  "200   327800B https://jobs.inria.fr/public/classic/en/offres?page=2",
+  "403    40657B https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+computer+science&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&page=0",
+  "FAIL https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+computer+science&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&page=0 HTTPError: 403 Client Error: Forbidden for url: https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+computer+science&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&",
+  "403    40657B https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+machine+learning&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&page=0",
+  "FAIL https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+machine+learning&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&page=0 HTTPError: 403 Client Error: Forbidden for url: https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+machine+learning&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&",
+  "403    40657B https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+artificial+intelligence&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&page=0",
+  "FAIL https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+artificial+intelligence&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&page=0 HTTPError: 403 Client Error: Forbidden for url: https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+artificial+intelligence&sort%5Bname%5D=created&sort%5Bdire",
+  "403    40657B https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+deep+learning&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&page=0",
+  "FAIL https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+deep+learning&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&page=0 HTTPError: 403 Client Error: Forbidden for url: https://euraxess.ec.europa.eu/jobs/search?keywords=PhD+deep+learning&sort%5Bname%5D=created&sort%5Bdirection%5D=DESC&page=0",
+  "403     5888B https://www.findaphd.com/phds/computer-science/europe/",
+  "FAIL https://www.findaphd.com/phds/computer-science/europe/ HTTPError: 403 Client Error: Forbidden for url: https://www.findaphd.com/phds/computer-science/europe/",
+  "403     5969B https://academicpositions.com/jobs/position/phd/field/computer-science",
+  "FAIL https://academicpositions.com/jobs/position/phd/field/computer-science HTTPError: 403 Client Error: Forbidden for url: https://academicpositions.com/jobs/position/phd/field/computer-science"
+ ]
+}
