@@ -23,7 +23,8 @@ keywords:
     - transformer
     - federated learning
     - graph neural
-    - optimization
+    - operations research
+    - big data
     - robotics
     - ai
     # French
@@ -36,14 +37,23 @@ keywords:
     - traitement automatique des langues
     - vision par ordinateur
     - science des donnees
-    - donnees
+    - donnees massives
+    - recherche operationnelle
+    - robotique
     - ia
+  # checked against the title only
   exclude:
     - postdoc
     - post-doc
-    - post-doctoral
+    - post doc
     - postdoctoral
-    - engineer position
+    - post-doctoral
+    - post-doctorant
+    - post-doctorante
+    - post-doctorat
+    - post doctorat
+    - postdoctorant
+    - research engineer
     - ingenieur de recherche
 
 # Offers not seen again for this many days are dropped from the page.

@@ -176,8 +176,9 @@ class Matcher:
         k = fold(k)
         return re.compile(r"(?<![a-z0-9])" + re.escape(k) + r"(?![a-z0-9])")
 
-    def match(self, *texts: str) -> list[str]:
-        t = fold(" ".join(texts))
-        if any(rx.search(t) for _, rx in self.exc):
+    def match(self, title: str, *texts: str) -> list[str]:
+        """Exclude terms are checked against the title only; include terms against everything."""
+        if any(rx.search(fold(title)) for _, rx in self.exc):
             return []
+        t = fold(" ".join((title,) + texts))
         return [k for k, rx in self.inc if rx.search(t)]

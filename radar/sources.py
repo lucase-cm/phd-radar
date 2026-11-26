@@ -14,11 +14,16 @@ from bs4 import BeautifulSoup
 
 from .core import Http, Offer, card_text, clean, links_matching
 
-PHD_RX = re.compile(r"\b(ph\.?\s?d|doctora|doctoral|th[eè]se|thesis|doktorand|promovend)", re.I)
+PHD_RX = re.compile(r"(?<![-\w])(?<!post )(ph\.?\s?d|doctora|doctoral|th[eè]se|thesis|doktorand|promovend)", re.I)
+POSTDOC_RX = re.compile(r"post[\s-]?doc|post[\s-]?doctora", re.I)
 
 
 def is_phd(*texts: str) -> bool:
     return bool(PHD_RX.search(" ".join(texts)))
+
+
+def is_postdoc(title: str) -> bool:
+    return bool(POSTDOC_RX.search(title))
 
 
 # ---------------------------------------------------------------- ADUM (French doctoral schools)
@@ -103,8 +108,9 @@ def cnrs(http: Http, cfg: dict) -> list[Offer]:
             continue
         for e in f.entries:
             title, link = e.get("title", ""), e.get("link", "")
-            if not link or not is_phd(title, link, e.get("summary", "")):
+            if not link or "/Offres/Doctorant/" not in link:
                 continue
+            title = re.sub(r"^Offre d'emploi [^:]*:\s*", "", title)
             ref = (re.search(r"/Offres/\w+/([A-Z0-9-]+)/", link) or re.search(r"(.*)", link)).group(1)
             out.setdefault(ref, Offer(source="CNRS", title=title, url=link,
                                       summary=re.sub("<[^>]+>", " ", e.get("summary", "")),
@@ -171,8 +177,8 @@ def inria(http: Http, cfg: dict) -> list[Offer]:
     bases = ["https://jobs.inria.fr/public/classic/en/offres",
              "https://jobs.inria.fr/public/classic/fr/offres"]
     for base in bases:
-        for page in range(1, 11):
-            url = base if page == 1 else f"{base}?page={page}"
+        for page in range(1, 2):  # Inria lists every open offer on a single page
+            url = base
             try:
                 soup = http.try_soup(url)
                 if soup is None:
@@ -186,7 +192,7 @@ def inria(http: Http, cfg: dict) -> list[Offer]:
                 if ref in out or len(t) < 8:
                     continue
                 ctx = card_text(a)
-                if not is_phd(t, ctx):
+                if not is_phd(t) or is_postdoc(t):
                     continue
                 out[ref] = Offer(source="Inria", title=t, url=href, summary=ctx,
                                  institution="Inria", location="France", uid=f"inria:{ref}")
