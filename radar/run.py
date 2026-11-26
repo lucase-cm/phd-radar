@@ -13,7 +13,7 @@ import yaml
 
 from .core import Http, Matcher, Offer
 from .render import write_feed, write_page
-from .sources import SOURCES
+from .sources import NOTES, SOURCES
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "offers.json"
@@ -51,7 +51,8 @@ def main(only: list[str] | None = None) -> int:
             status.append({"source": name, "ok": bool(offers), "count": len(offers), "new": new,
                            "matched": sum(1 for o in offers if o.matched),
                            "seconds": round(time.time() - t0, 1),
-                           "error": "" if offers else "0 offers found (site layout may have changed or blocked us)"})
+                           "error": "" if offers else NOTES.get(name, "0 offers found (site layout may have changed or blocked us)"),
+                           "note": NOTES.get(name, "")})
         except Exception as e:  # one broken source must not stop the others
             traceback.print_exc()
             status.append({"source": name, "ok": False, "count": 0, "new": 0, "matched": 0,

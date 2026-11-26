@@ -88,7 +88,7 @@ $('#run').textContent=D.run_at;
 const srcs=[...new Set(D.offers.map(o=>o.source))].sort();
 srcs.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;$('#src').append(o)});
 $('#stt').innerHTML='<tr><th>Source</th><th>Offers</th><th>New</th><th>Matches</th><th>Status</th></tr>'+
- D.status.map(s=>`<tr><td>${s.source}</td><td>${s.count}</td><td>${s.new}</td><td>${s.matched}</td><td class="${s.ok?'':'bad'}">${s.ok?'OK':esc(s.error)}</td></tr>`).join('');
+ D.status.map(s=>`<tr><td>${s.source}</td><td>${s.count}</td><td>${s.new}</td><td>${s.matched}</td><td class="${s.ok||s.note?'':'bad'}">${s.ok?'OK':esc(s.error)}</td></tr>`).join('');
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function fold(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}
 const today=new Date().toISOString().slice(0,10);

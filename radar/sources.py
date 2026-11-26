@@ -129,48 +129,39 @@ def cnrs(http: Http, cfg: dict) -> list[Offer]:
     return list(out.values())
 
 
-# ---------------------------------------------------------------- CEA (INSTN thesis catalogue, WordPress)
+# ---------------------------------------------------------------- CEA (INSTN thesis catalogue, WordPress REST API)
+NOTES: dict[str, str] = {}  # sources can leave a note for the status table
+
+
 def cea(http: Http, cfg: dict) -> list[Offer]:
-    """The thesis pages are listed in the site's public sitemap (with last-modified dates).
-    Titles come from the URL slug; the most recent pages are opened to get the real title and text."""
-    idx = http.get("https://instn.cea.fr/sitemap_index.xml")
-    idx.raise_for_status()
-    maps = [u for u in re.findall(r"<loc>([^<]+)</loc>", idx.text) if re.search(r"/these-sitemap", u)]
-    entries = []
-    for sm in maps:
-        r = http.get(sm)
-        if r.status_code != 200:
-            continue
-        for block in re.findall(r"<url>(.*?)</url>", r.text, re.S):
-            loc = re.search(r"<loc>([^<]+)</loc>", block)
-            mod = re.search(r"<lastmod>([^<]+)</lastmod>", block)
-            if loc:
-                entries.append((mod.group(1)[:10] if mod else "", loc.group(1).strip()))
-    entries.sort(reverse=True)
-    max_age = cfg.get("max_age_days", 300)
-    from datetime import date, timedelta
-    cutoff = (date.today() - timedelta(days=max_age)).isoformat()
-    entries = [(m, u) for m, u in entries if not m or m >= cutoff]
-    # keep one language version per slug (prefer English)
-    by_slug: dict[str, tuple] = {}
-    for m, u in entries:
-        slug = u.rstrip("/").rsplit("/", 1)[-1].removesuffix("-en")
-        if slug not in by_slug or "/en/" in u:
-            by_slug[slug] = (m, u)
+    """instn.cea.fr is WordPress; thesis topics are the public 'these' post type.
+    The catalogue is emptied between campaigns (topics usually appear Dec-Jan), so 0 can be normal."""
+    api = "https://instn.cea.fr/wp-json/wp/v2"
+    themes = {}
+    for page in range(1, 6):
+        r = http.get(f"{api}/thematique-these?per_page=100&page={page}&_fields=id,name")
+        if r.status_code != 200 or not r.json():
+            break
+        themes.update({t["id"]: clean(t["name"]) for t in r.json()})
     out = []
-    details_left = cfg.get("max_details", 60)
-    for slug, (m, u) in sorted(by_slug.items(), key=lambda kv: kv[1][0], reverse=True):
-        title, summary = slug.replace("-", " ").capitalize(), ""
-        if details_left > 0:
-            details_left -= 1
-            soup = http.try_soup(u)
-            if soup is not None:
-                h1 = soup.find("h1")
-                title = clean(h1.get_text(" ")) if h1 else title
-                main = soup.find("main") or soup.find("article") or soup.body
-                summary = clean(main.get_text(" "))[:900] if main else ""
-        out.append(Offer(source="CEA", title=title, url=u, summary=summary, posted=m,
-                         institution="CEA", location="France", uid=f"cea:{slug}"))
+    for page in range(1, 30):
+        r = http.get(f"{api}/these?per_page=100&page={page}"
+                     "&_fields=id,date,modified,link,title,excerpt,content,thematique-these")
+        if r.status_code != 200:
+            break
+        items = r.json()
+        if not items:
+            break
+        for t in items:
+            text = BeautifulSoup((t.get("excerpt") or {}).get("rendered", "") or
+                                 (t.get("content") or {}).get("rendered", ""), "lxml").get_text(" ")
+            theme = ", ".join(themes.get(i, "") for i in t.get("thematique-these", []))
+            out.append(Offer(source="CEA", title=BeautifulSoup(t["title"]["rendered"], "lxml").get_text(),
+                             url=t["link"], summary=(theme + " — " if theme else "") + text,
+                             posted=t.get("date", "")[:10], institution="CEA", location="France",
+                             uid=f"cea:{t['id']}"))
+    if not out:
+        NOTES["cea"] = "Catalogue currently empty (CEA usually publishes thesis topics in Dec–Jan)"
     return out
 
 

@@ -60,14 +60,14 @@ sources:
   abg:
     enabled: true
     # one search per term on ABG's "Sujet de Thèse" listing ("" = everything, newest first)
-    search: ["", "informatique", "intelligence artificielle", "apprentissage", "machine learning", "données"]
-    max_pages: 4
+    # ABG ignores keyword search, so we page through the newest thesis topics and filter locally
+    search: [""]
+    max_pages: 20
   cnrs:
     enabled: true
   cea:
     enabled: true
-    max_age_days: 300   # ignore thesis pages not updated for this long
-    max_details: 60     # how many of the newest pages to open per run for title + text
+    # read from the site's public WordPress API; empty between campaigns (topics appear ~Dec–Jan)
   inria:
     enabled: true
   # EURAXESS, FindAPhD and Academic Positions block automated requests (HTTP 403).
