@@ -1542,6 +1542,20 @@
   "uid": "abg:140721",
   "url": "https://emploi.abg.asso.fr/fr/candidatOffres/show/id_offre/140721"
  },
+ "abg:140725": {
+  "deadline": "",
+  "first_seen": "2026-11-26",
+  "institution": "",
+  "last_seen": "2026-11-26",
+  "location": "",
+  "matched": [],
+  "posted": "27/10/2026",
+  "source": "ABG",
+  "summary": "Un générateur d'événements pour les sondes dures du prééquilbre des collisions d’ions lourds au LHC // An event generator for hard probes of the preequilibrium stages of ion collisions at the LHC CEA Paris-Saclay Laboratoire plasma de quarks et gluons (LQGP) Thèse Saclay Au grand collisionneur de hadrons (LHC) à Genève, des collisions entre noyaux sont utilisées pour créer un système thermodynamique décrit par la dynamique des fluides sous des conditions extrêmes de température et densité d’énergie. La température du ... Expertises scientifiques : Physique Mots clés : Physique nucléaire / Phys",
+  "title": "Un générateur d'événements pour les sondes dures du prééquilbre des collisions d’ions lourds au LHC // An event generator for hard probes of the preequilibrium stages of ion collisions at the LHC",
+  "uid": "abg:140725",
+  "url": "https://emploi.abg.asso.fr/fr/candidatOffres/show/id_offre/140725"
+ },
  "abg:141044": {
   "deadline": "",
   "first_seen": "2026-11-26",
@@ -1637,7 +1651,7 @@
   "matched": [],
   "posted": "",
   "source": "ADUM",
-  "summary": "Construction de population synthétique pour un modèle de simulation multi-agents des transports",
+  "summary": "Sciences Humaines et Sociales - EDSHS 586 Modalités de candidature Spécialite Sciences Economiques ☛ Construction de population synthétique pour un modèle de simulation multi-agents des transports Construction of a synthetic population for a multi-agent transportation simulation model",
   "title": "Construction de population synthétique pour un modèle de simulation multi-agents des transports",
   "uid": "adum:74504",
   "url": "https://adum.fr/as/ed/voirproposition.pl?site=adumR&matricule_prop=74504"
@@ -3446,6 +3460,20 @@
   "uid": "adum:77531",
   "url": "https://adum.fr/as/ed/voirproposition.pl?site=adumR&matricule_prop=77531"
  },
+ "adum:77532": {
+  "deadline": "",
+  "first_seen": "2026-11-26",
+  "institution": "ADUM · adumR",
+  "last_seen": "2026-11-26",
+  "location": "France",
+  "matched": [],
+  "posted": "",
+  "source": "ADUM",
+  "summary": "Solidification directionnelle d'alliages Al-7075 recyclés pour applications aéronautiques : Évolution microstructurale, ségrégation et résistance à la corrosion",
+  "title": "Solidification directionnelle d'alliages Al-7075 recyclés pour applications aéronautiques : Évolution microstructurale, ségrégation et résistance à la corrosion",
+  "uid": "adum:77532",
+  "url": "https://adum.fr/as/ed/voirproposition.pl?site=adumR&matricule_prop=77532"
+ },
  "adum:77533": {
   "deadline": "",
   "first_seen": "2026-11-26",
@@ -4779,6 +4807,76 @@
   "title": "Vers une responsabilité populationnelle hospitalière orientée vers léquité en santé : conception, implémentation et transférabilité dun parcours intégré de dépistage du cancer colorectal",
   "uid": "adum:77817",
   "url": "https://adum.fr/as/ed/voirproposition.pl?site=adumR&matricule_prop=77817"
+ },
+ "adum:77823": {
+  "deadline": "",
+  "first_seen": "2026-11-26",
+  "institution": "ADUM · adumR",
+  "last_seen": "2026-11-26",
+  "location": "France",
+  "matched": [],
+  "posted": "",
+  "source": "ADUM",
+  "summary": "Polymères composites auto-cicatrisants à base de matériaux à transition de spin",
+  "title": "Polymères composites auto-cicatrisants à base de matériaux à transition de spin",
+  "uid": "adum:77823",
+  "url": "https://adum.fr/as/ed/voirproposition.pl?site=adumR&matricule_prop=77823"
+ },
+ "adum:77832": {
+  "deadline": "",
+  "first_seen": "2026-11-26",
+  "institution": "ADUM · adumR",
+  "last_seen": "2026-11-26",
+  "location": "France",
+  "matched": [],
+  "posted": "",
+  "source": "ADUM",
+  "summary": "Territoires délaissés et désengagement démocratique : diagnostics et réponses des élus locaux",
+  "title": "Territoires délaissés et désengagement démocratique : diagnostics et réponses des élus locaux",
+  "uid": "adum:77832",
+  "url": "https://adum.fr/as/ed/voirproposition.pl?site=adumR&matricule_prop=77832"
+ },
+ "adum:77833": {
+  "deadline": "",
+  "first_seen": "2026-11-26",
+  "institution": "ADUM · adumR",
+  "last_seen": "2026-11-26",
+  "location": "France",
+  "matched": [],
+  "posted": "",
+  "source": "ADUM",
+  "summary": "Gouvernance d'entreprise et risque de cybersécurité",
+  "title": "Gouvernance d'entreprise et risque de cybersécurité",
+  "uid": "adum:77833",
+  "url": "https://adum.fr/as/ed/voirproposition.pl?site=adumR&matricule_prop=77833"
+ },
+ "adum:77834": {
+  "deadline": "",
+  "first_seen": "2026-11-26",
+  "institution": "ADUM · adumR",
+  "last_seen": "2026-11-26",
+  "location": "France",
+  "matched": [],
+  "posted": "",
+  "source": "ADUM",
+  "summary": "Maintenir les salariés sur la touche : une forme inexplorée de marginalisation au travail",
+  "title": "Maintenir les salariés sur la touche : une forme inexplorée de marginalisation au travail",
+  "uid": "adum:77834",
+  "url": "https://adum.fr/as/ed/voirproposition.pl?site=adumR&matricule_prop=77834"
+ },
+ "adum:77837": {
+  "deadline": "",
+  "first_seen": "2026-11-26",
+  "institution": "ADUM · adumR",
+  "last_seen": "2026-11-26",
+  "location": "France",
+  "matched": [],
+  "posted": "",
+  "source": "ADUM",
+  "summary": "Comment les inégalités socioéconomiques façonnent l'interprétation et l'évaluation morale des stéréotypes sociaux par les consommateurs dans les contextes de marché",
+  "title": "Comment les inégalités socioéconomiques façonnent l'interprétation et l'évaluation morale des stéréotypes sociaux par les consommateurs dans les contextes de marché",
+  "uid": "adum:77837",
+  "url": "https://adum.fr/as/ed/voirproposition.pl?site=adumR&matricule_prop=77837"
  },
  "cnrs:UAR3278-NATTOL-039": {
   "deadline": "",
