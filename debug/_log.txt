@@ -1,0 +1,6 @@
+403     5794B GET https://academicpositions.com/rss
+403     5809B GET https://academicpositions.com/jobs/rss
+403     5845B GET https://academicpositions.com/find-jobs/rss
+200     2676B GET https://academicpositions.com/robots.txt
+403     5810B GET https://www.findaphd.com/robots.txt
+200     2560B GET https://euraxess.ec.europa.eu/robots.txt
