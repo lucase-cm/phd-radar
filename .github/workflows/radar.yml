@@ -57,6 +57,14 @@ jobs:
           RADAR_DEBUG_DIR: ${{ inputs.debug && 'debug' || '' }}
           SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
         run: python -m radar.run ${{ inputs.only }}
+      - name: Save debug pages to the 'debug' branch
+        if: ${{ inputs.debug && inputs.probe == '' }}
+        run: |
+          mkdir -p /tmp/dbg && cp -r debug data/status.json /tmp/dbg/ 2>/dev/null || true
+          git config user.name "phd-radar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git worktree add --orphan -b debug-tmp /tmp/wt
+          cp -r /tmp/dbg/* /tmp/wt/ && cd /tmp/wt && git add -A && git commit -qm "debug run" && git push -f origin debug-tmp:debug
       - name: Commit data
         if: ${{ inputs.probe == '' }}
         run: |

@@ -69,6 +69,12 @@ class Http:
         self.log: list[str] = []
 
     def get(self, url: str, **kw) -> requests.Response:
+        return self.request("GET", url, **kw)
+
+    def post(self, url: str, **kw) -> requests.Response:
+        return self.request("POST", url, **kw)
+
+    def request(self, method: str, url: str, **kw) -> requests.Response:
         host = urlparse(url).netloc
         wait = self.delay - (time.time() - self._last.get(host, 0))
         if wait > 0:
@@ -76,9 +82,9 @@ class Http:
         last_exc = None
         for attempt in range(3):
             try:
-                r = self.s.get(url, timeout=40, **kw)
+                r = self.s.request(method, url, timeout=40, **kw)
                 self._last[host] = time.time()
-                self.log.append(f"{r.status_code} {len(r.content):>8}B {url}")
+                self.log.append(f"{r.status_code} {len(r.content):>8}B {method} {url}")
                 if r.status_code in (429, 502, 503, 504):
                     time.sleep(5 * (attempt + 1))
                     continue
@@ -111,7 +117,7 @@ class Http:
         if not DEBUG_DIR:
             return
         os.makedirs(DEBUG_DIR, exist_ok=True)
-        name = re.sub(r"[^A-Za-z0-9]+", "_", url)[:150]
+        name = re.sub(r"[^A-Za-z0-9]+", "_", r.request.method + "_" + url + "_" + str(r.request.body or "")[:60])[:150]
         with open(os.path.join(DEBUG_DIR, name + ".html"), "wb") as f:
             f.write(r.content)
 

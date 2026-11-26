@@ -10,6 +10,7 @@ import re
 from urllib.parse import quote_plus, urljoin
 
 import feedparser
+from bs4 import BeautifulSoup
 
 from .core import Http, Offer, card_text, clean, links_matching
 
@@ -53,27 +54,36 @@ def adum(http: Http, cfg: dict) -> list[Offer]:
 
 
 # ---------------------------------------------------------------- ABG (French thesis-topic board, mirrors many ADUM offers)
+ABG = "https://emploi.abg.asso.fr"
+
+
 def abg(http: Http, cfg: dict) -> list[Offer]:
+    """ABG's listing is filled by a form POST to /fr/candidatOffres/recherche.
+    Offer type 2 = 'Sujet de Thèse'. One search per keyword, newest first."""
     out: dict[str, Offer] = {}
-    for cat in cfg.get("categories", ["informatique"]):
+    http.try_soup(f"{ABG}/fr/candidatOffres")  # get a session cookie, like a browser would
+    for kw in cfg.get("search", [""]):
         for page in range(1, cfg.get("max_pages", 3) + 1):
-            url = f"https://www.abg.asso.fr/fr/recrutement/sujet-de-these/{cat}"
-            if page > 1:
-                url += f"?page={page}"
-            soup = http.try_soup(url)
-            if soup is None:
+            form = {"page": str(page), "orderBy": "updated_at_desc", "autoload": "0",
+                    "criteria[mot_cle]": kw, "criteria[id_type_offre]": "2", "reset_all": "0"}
+            try:
+                r = http.post(f"{ABG}/fr/candidatOffres/recherche", data=form,
+                              headers={"X-Requested-With": "XMLHttpRequest",
+                                       "Referer": f"{ABG}/fr/candidatOffres"})
+                r.raise_for_status()
+            except Exception:
                 break
+            soup = BeautifulSoup(r.text, "lxml")
             n = 0
-            for href, a in links_matching(soup, url, r"/candidatOffres/show/id_offre/\d+"):
+            for href, a in links_matching(soup, ABG + "/fr/", r"/candidatOffres/show/id_offre/\d+"):
                 oid = re.search(r"id_offre/(\d+)", href).group(1)
                 title = clean(a.get_text(" "))
                 if oid in out or len(title) < 8:
                     continue
                 ctx = card_text(a, 5, 900)
-                m = re.search(r"Ref\. ABG-\d+\s+(\d{2}/\d{2}/\d{4})", ctx)
-                out[oid] = Offer(source="ABG", title=title, url=href, summary=ctx,
-                                 posted=m.group(1) if m else "", location="France",
-                                 uid=f"abg:{oid}")
+                m = re.search(r"(\d{2}/\d{2}/\d{4})", ctx)
+                out[oid] = Offer(source="ABG", title=title, url=f"{ABG}/fr/candidatOffres/show/id_offre/{oid}",
+                                 summary=ctx, posted=m.group(1) if m else "", uid=f"abg:{oid}")
                 n += 1
             if n == 0:
                 break
@@ -121,51 +131,47 @@ def cnrs(http: Http, cfg: dict) -> list[Offer]:
 
 # ---------------------------------------------------------------- CEA (INSTN thesis catalogue, WordPress)
 def cea(http: Http, cfg: dict) -> list[Offer]:
-    out: dict[str, Offer] = {}
-    # WordPress sites expose RSS for any listing; try the thesis archive feeds first.
-    for feed_url in ("https://instn.cea.fr/en/these/feed/", "https://instn.cea.fr/these/feed/",
-                     "https://instn.cea.fr/en/feed/?post_type=these", "https://instn.cea.fr/feed/?post_type=these"):
-        for page in range(1, 6):
-            u = feed_url + (("&" if "?" in feed_url else "?") + f"paged={page}" if page > 1 else "")
-            try:
-                f = feedparser.parse(http.get(u).content)
-            except Exception:
-                break
-            if not f.entries:
-                break
-            for e in f.entries:
-                link = e.get("link", "")
-                if "/these/" not in link and "these" not in link:
-                    continue
-                out.setdefault(link, Offer(source="CEA", title=e.get("title", ""), url=link,
-                                           summary=re.sub("<[^>]+>", " ", e.get("summary", "")),
-                                           posted=e.get("published", "")[:16], institution="CEA",
-                                           location="France"))
-        if out:
-            return list(out.values())
-    # HTML fallback: thematic listing pages
-    for url in ("https://instn.cea.fr/en/thematique-these/mathematics-information-scientific-software-en/",
-                "https://instn.cea.fr/en/thematique-these/technological-challenges-en/",
-                "https://instn.cea.fr/en/these/"):
-        for page in range(1, 6):
-            u = url if page == 1 else f"{url}page/{page}/"
-            try:
-                soup = http.try_soup(u)
-                if soup is None:
-                    break
-            except Exception:
-                break
-            n = 0
-            for href, a in links_matching(soup, u, r"instn\.cea\.fr/(en/)?these/[^/?#]+/?$"):
-                t = clean(a.get_text(" "))
-                if len(t) < 10 or href in out:
-                    continue
-                out[href] = Offer(source="CEA", title=t, url=href, summary=card_text(a),
-                                  institution="CEA", location="France")
-                n += 1
-            if n == 0:
-                break
-    return list(out.values())
+    """The thesis pages are listed in the site's public sitemap (with last-modified dates).
+    Titles come from the URL slug; the most recent pages are opened to get the real title and text."""
+    idx = http.get("https://instn.cea.fr/sitemap_index.xml")
+    idx.raise_for_status()
+    maps = [u for u in re.findall(r"<loc>([^<]+)</loc>", idx.text) if re.search(r"/these-sitemap", u)]
+    entries = []
+    for sm in maps:
+        r = http.get(sm)
+        if r.status_code != 200:
+            continue
+        for block in re.findall(r"<url>(.*?)</url>", r.text, re.S):
+            loc = re.search(r"<loc>([^<]+)</loc>", block)
+            mod = re.search(r"<lastmod>([^<]+)</lastmod>", block)
+            if loc:
+                entries.append((mod.group(1)[:10] if mod else "", loc.group(1).strip()))
+    entries.sort(reverse=True)
+    max_age = cfg.get("max_age_days", 300)
+    from datetime import date, timedelta
+    cutoff = (date.today() - timedelta(days=max_age)).isoformat()
+    entries = [(m, u) for m, u in entries if not m or m >= cutoff]
+    # keep one language version per slug (prefer English)
+    by_slug: dict[str, tuple] = {}
+    for m, u in entries:
+        slug = u.rstrip("/").rsplit("/", 1)[-1].removesuffix("-en")
+        if slug not in by_slug or "/en/" in u:
+            by_slug[slug] = (m, u)
+    out = []
+    details_left = cfg.get("max_details", 60)
+    for slug, (m, u) in sorted(by_slug.items(), key=lambda kv: kv[1][0], reverse=True):
+        title, summary = slug.replace("-", " ").capitalize(), ""
+        if details_left > 0:
+            details_left -= 1
+            soup = http.try_soup(u)
+            if soup is not None:
+                h1 = soup.find("h1")
+                title = clean(h1.get_text(" ")) if h1 else title
+                main = soup.find("main") or soup.find("article") or soup.body
+                summary = clean(main.get_text(" "))[:900] if main else ""
+        out.append(Offer(source="CEA", title=title, url=u, summary=summary, posted=m,
+                         institution="CEA", location="France", uid=f"cea:{slug}"))
+    return out
 
 
 # ---------------------------------------------------------------- Inria

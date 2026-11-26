@@ -59,23 +59,28 @@ sources:
     sites: [adumR, PSaclay, IPP]
   abg:
     enabled: true
-    categories: [informatique, mathematiques, electronique]
-    max_pages: 5
+    # one search per term on ABG's "Sujet de Thèse" listing ("" = everything, newest first)
+    search: ["", "informatique", "intelligence artificielle", "apprentissage", "machine learning", "données"]
+    max_pages: 4
   cnrs:
     enabled: true
   cea:
     enabled: true
+    max_age_days: 300   # ignore thesis pages not updated for this long
+    max_details: 60     # how many of the newest pages to open per run for title + text
   inria:
     enabled: true
+  # EURAXESS, FindAPhD and Academic Positions block automated requests (HTTP 403).
+  # Use their built-in email alerts instead (see README); left here in case that changes.
   euraxess:
-    enabled: true
+    enabled: false
     queries: ["computer science", "machine learning", "artificial intelligence", "deep learning"]
     max_pages: 3
   findaphd:
-    enabled: true
+    enabled: false
     paths: ["/phds/computer-science/europe/"]
     max_pages: 3
   academicpositions:
-    enabled: true
+    enabled: false
     paths: ["/jobs/position/phd/field/computer-science"]
     max_pages: 3
