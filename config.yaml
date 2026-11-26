@@ -1,0 +1,81 @@
+# PhD Radar configuration
+# Offers whose title/summary contain any `include` keyword (and no `exclude` keyword)
+# are flagged as matches. Matching ignores case and accents. Short terms such as
+# "ai", "ia", "nlp" match whole words only.
+
+keywords:
+  include:
+    # English
+    - computer science
+    - artificial intelligence
+    - machine learning
+    - deep learning
+    - reinforcement learning
+    - neural network
+    - large language model
+    - llm
+    - nlp
+    - natural language
+    - computer vision
+    - data science
+    - generative
+    - foundation model
+    - transformer
+    - federated learning
+    - graph neural
+    - optimization
+    - robotics
+    - ai
+    # French
+    - informatique
+    - intelligence artificielle
+    - apprentissage automatique
+    - apprentissage profond
+    - apprentissage par renforcement
+    - reseaux de neurones
+    - traitement automatique des langues
+    - vision par ordinateur
+    - science des donnees
+    - donnees
+    - ia
+  exclude:
+    - postdoc
+    - post-doc
+    - post-doctoral
+    - postdoctoral
+    - engineer position
+    - ingenieur de recherche
+
+# Offers not seen again for this many days are dropped from the page.
+expire_after_days: 45
+
+# Seconds to wait between requests to the same site (be polite).
+delay_seconds: 2
+
+sources:
+  adum:
+    enabled: true
+    # "adumR" is ADUM's network-wide listing; the others are institution sites.
+    sites: [adumR, PSaclay, IPP]
+  abg:
+    enabled: true
+    categories: [informatique, mathematiques, electronique]
+    max_pages: 5
+  cnrs:
+    enabled: true
+  cea:
+    enabled: true
+  inria:
+    enabled: true
+  euraxess:
+    enabled: true
+    queries: ["computer science", "machine learning", "artificial intelligence", "deep learning"]
+    max_pages: 3
+  findaphd:
+    enabled: true
+    paths: ["/phds/computer-science/europe/"]
+    max_pages: 3
+  academicpositions:
+    enabled: true
+    paths: ["/jobs/position/phd/field/computer-science"]
+    max_pages: 3
